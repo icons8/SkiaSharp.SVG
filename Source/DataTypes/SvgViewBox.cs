@@ -114,7 +114,7 @@ namespace Svg
 
             if (Equals(Empty))
             {
-                renderer.TranslateTransform(x, y, MatrixOrder.Prepend);
+                renderer.TranslateTransform(x, y, SKMatrixOrder.Prepend);
                 return;
             }
 
@@ -183,9 +183,9 @@ namespace Svg
                 }
             }
 
-            renderer.TranslateTransform(x, y, MatrixOrder.Prepend);
-            renderer.TranslateTransform(fMinX, fMinY, MatrixOrder.Prepend);
-            renderer.ScaleTransform(fScaleX, fScaleY, MatrixOrder.Prepend);
+            renderer.TranslateTransform(x, y, SKMatrixOrder.Prepend);
+            renderer.TranslateTransform(fMinX, fMinY, SKMatrixOrder.Prepend);
+            renderer.ScaleTransform(fScaleX, fScaleY, SKMatrixOrder.Prepend);
         }
     }
 

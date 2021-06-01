@@ -16,17 +16,17 @@ namespace Svg.UnitTests
         public void MultiRender_AfterDisposal_YieldsNoIssues()
         {
             var svgDocument = SvgDocument.Open(GetResourceXmlDoc(TestResource));
-            using (var smallBitmap = svgDocument.Draw())
+            using (var smallSKBitmap = svgDocument.Draw())
             {                
             }
 
             //Second rendering
-            using (var smallBitmap = svgDocument.Draw())
+            using (var smallSKBitmap = svgDocument.Draw())
             {                
             }
 
             //Also try a rendering with a different parameter set
-            using (var bitmap = svgDocument.Draw(1000, 1000))
+            using (var SKBitmap = svgDocument.Draw(1000, 1000))
             {
             }
 
@@ -36,14 +36,14 @@ namespace Svg.UnitTests
         public void MultiRender_InsideOtherRender_YieldsNoIssues()
         {
             var svgDocument = SvgDocument.Open(GetResourceXmlDoc(TestResource));
-            using (var smallBitmap = svgDocument.Draw())
+            using (var smallSKBitmap = svgDocument.Draw())
             {
-                using (var bitmap = svgDocument.Draw())
+                using (var SKBitmap = svgDocument.Draw())
                 {
                 }
 
                 //Also try with a different set of paramters
-                using (var bitmap = svgDocument.Draw(1000, 1000))
+                using (var SKBitmap = svgDocument.Draw(1000, 1000))
                 {
                 }
             }

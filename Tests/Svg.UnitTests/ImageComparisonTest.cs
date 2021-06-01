@@ -140,14 +140,14 @@ namespace Svg.UnitTests
         /// <summary>
         /// Load the SVG image the same way as in the SVGW3CTestRunner.
         /// </summary>
-        private static Bitmap LoadSvgImage(SvgDocument svgDoc, bool usedFixedSize)
+        private static SKBitmap LoadSvgImage(SvgDocument svgDoc, bool usedFixedSize)
         {
-            Bitmap svgImage = null;
+            SKBitmap svgImage = null;
             try
             {
                 if (usedFixedSize)
                 {
-                    svgImage = new Bitmap(480, 360);
+                    svgImage = new SKBitmap(480, 360);
                     svgDoc.Draw(svgImage);
                 }
                 else
@@ -193,14 +193,14 @@ namespace Svg.UnitTests
             return diffPixels / (float)(differences.GetLength(0) * differences.GetLength(1));
         }
 
-        public static Bitmap Resize(this Image originalImage, int newWidth, int newHeight)
+        public static SKBitmap Resize(this Image originalImage, int newWidth, int newHeight)
         {
             if (originalImage.Width > originalImage.Height)
                 newWidth = originalImage.Width * newHeight / originalImage.Height;
             else
                 newHeight = originalImage.Height * newWidth / originalImage.Width;
 
-            var smallVersion = new Bitmap(newWidth, newHeight);
+            var smallVersion = new SKBitmap(newWidth, newHeight);
             using (var g = Graphics.FromImage(smallVersion))
             {
                 g.SmoothingMode = SmoothingMode.HighQuality;
@@ -212,7 +212,7 @@ namespace Svg.UnitTests
             return smallVersion;
         }
 
-        public static byte[,] GetGrayScaleValues(this Bitmap img)
+        public static byte[,] GetGrayScaleValues(this SKBitmap img)
         {
             byte[,] grayScale = new byte[img.Width, img.Height];
 
@@ -238,27 +238,27 @@ namespace Svg.UnitTests
             new float[] {0, 0, 0, 0, 1}
         });
 
-        public static Bitmap GetGrayScaleVersion(this Bitmap original)
+        public static SKBitmap GetGrayScaleVersion(this SKBitmap original)
         {
-            // create a blank bitmap the same size as original
+            // create a blank SKBitmap the same size as original
             // https://web.archive.org/web/20130111215043/http://www.switchonthecode.com/tutorials/csharp-tutorial-convert-a-color-image-to-grayscale
-            var newBitmap = new Bitmap(original.Width, original.Height);
+            var newSKBitmap = new SKBitmap(original.Width, original.Height);
 
             // get a graphics object from the new image
-            using (var g = Graphics.FromImage(newBitmap))
+            using (var g = Graphics.FromImage(newSKBitmap))
             // create some image attributes
             using (var attributes = new ImageAttributes())
             {
-                // set the color matrix attribute
+                // set the color SKMatrix attribute
                 attributes.SetColorMatrix(ColorMatrix);
 
                 // draw the original image on the new image
-                // using the grayscale color matrix
+                // using the grayscale color SKMatrix
                 g.DrawImage(original, new Rectangle(0, 0, original.Width, original.Height),
                     0, 0, original.Width, original.Height, GraphicsUnit.Pixel, attributes);
             }
 
-            return newBitmap;
+            return newSKBitmap;
         }
 
         public static byte[,] GetDifferences(this Image img1, Image img2)

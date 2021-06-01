@@ -11,15 +11,15 @@ namespace Svg.Transforms
 
         public float CenterY { get; set; }
 
-        public override Matrix Matrix
+        public override SKMatrix SKMatrix
         {
             get
             {
-                var matrix = new Matrix();
-                matrix.Translate(CenterX, CenterY);
-                matrix.Rotate(Angle);
-                matrix.Translate(-CenterX, -CenterY);
-                return matrix;
+                var SKMatrix = new SKMatrix();
+                SKMatrix.Translate(CenterX, CenterY);
+                SKMatrix.Rotate(Angle);
+                SKMatrix.Translate(-CenterX, -CenterY);
+                return SKMatrix;
             }
         }
 

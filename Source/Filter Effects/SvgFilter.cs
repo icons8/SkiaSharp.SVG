@@ -85,16 +85,16 @@ namespace Svg.FilterEffects
             RenderChildren(renderer);
         }
 
-        private Matrix GetTransform(SvgVisualElement element)
+        private SKMatrix GetTransform(SvgVisualElement element)
         {
-            var transformMatrix = new Matrix();
+            var transformMatrix = new SKMatrix();
             if (element.Transforms != null)
-                using (var matrix = element.Transforms.GetMatrix())
+                using (var SKMatrix = element.Transforms.GetMatrix())
                     transformMatrix.Multiply(matrix);
             return transformMatrix;
         }
 
-        private RectangleF GetPathBounds(SvgVisualElement element, ISvgRenderer renderer, Matrix transform)
+        private RectangleF GetPathBounds(SvgVisualElement element, ISvgRenderer renderer, SKMatrix transform)
         {
             var bounds = element is SvgGroup ? element.Path(renderer).GetBounds() : element.Bounds;
             var pts = new PointF[] { bounds.Location, new PointF(bounds.Right, bounds.Bottom) };

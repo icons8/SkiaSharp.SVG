@@ -7,7 +7,7 @@ namespace Svg
     [SvgElement("glyph")]
     public partial class SvgGlyph : SvgPathBasedElement, ISvgPathElement
     {
-        private GraphicsPath _path;
+        private SKPath _path;
 
         /// <summary>
         /// Gets or sets a <see cref="SvgPathSegmentList"/> of path data.
@@ -69,13 +69,13 @@ namespace Svg
         }
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             if (_path == null || IsPathDirty)
             {
-                _path = new GraphicsPath();
+                _path = new SKPath();
 
                 if (PathData != null)
                     foreach (var segment in PathData)

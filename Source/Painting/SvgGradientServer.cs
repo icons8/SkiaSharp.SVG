@@ -110,14 +110,14 @@ namespace Svg
             set { Attributes["stop-opacity"] = FixOpacityValue(value); }
         }
 
-        protected Matrix EffectiveGradientTransform
+        protected SKMatrix EffectiveGradientTransform
         {
             get
             {
-                var transform = new Matrix();
+                var transform = new SKMatrix();
 
                 if (GradientTransform != null)
-                    using (var matrix = GradientTransform.GetMatrix())
+                    using (var SKMatrix = GradientTransform.GetMatrix())
                         transform.Multiply(matrix);
 
                 return transform;

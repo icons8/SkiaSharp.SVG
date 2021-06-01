@@ -87,7 +87,7 @@ namespace Svg
                 var focals = new PointF[] {new PointF(NormalizeUnit(FocalX).ToDeviceValue(renderer, UnitRenderingType.Horizontal, this),
                                                       NormalizeUnit(FocalY).ToDeviceValue(renderer, UnitRenderingType.Vertical, this)) };
                 var specifiedRadius = NormalizeUnit(Radius).ToDeviceValue(renderer, UnitRenderingType.Other, this);
-                var path = new GraphicsPath();
+                var path = new SKPath();
                 path.AddEllipse(
                     center.X - specifiedRadius, center.Y - specifiedRadius,
                     specifiedRadius * 2, specifiedRadius * 2
@@ -96,10 +96,10 @@ namespace Svg
                 using (var transform = EffectiveGradientTransform)
                 {
                     var bounds = renderer.GetBoundable().Bounds;
-                    transform.Translate(bounds.X, bounds.Y, MatrixOrder.Prepend);
+                    transform.Translate(bounds.X, bounds.Y, SKMatrixOrder.Prepend);
                     if (this.GradientUnits == SvgCoordinateUnits.ObjectBoundingBox)
                     {
-                        transform.Scale(bounds.Width, bounds.Height, MatrixOrder.Prepend);
+                        transform.Scale(bounds.Width, bounds.Height, SKMatrixOrder.Prepend);
                     }
                     path.Transform(transform);
                     transform.TransformPoints(focals);
@@ -126,7 +126,7 @@ namespace Svg
                             newClip.Exclude(path);
                             renderer.SetClip(newClip);
 
-                            var renderPath = (GraphicsPath)renderingElement.Path(renderer);
+                            var renderPath = (SKPath)renderingElement.Path(renderer);
                             if (forStroke)
                             {
                                 using (var pen = new Pen(solidBrush, renderingElement.StrokeWidth.ToDeviceValue(renderer, UnitRenderingType.Other, renderingElement)))
@@ -152,11 +152,11 @@ namespace Svg
                 // Transform the path based on the scaling
                 var gradBounds = path.GetBounds();
                 var transCenter = new PointF(gradBounds.Left + gradBounds.Width / 2, gradBounds.Top + gradBounds.Height / 2);
-                using (var scaleMat = new Matrix())
+                using (var scaleMat = new SKMatrix())
                 {
-                    scaleMat.Translate(-1 * transCenter.X, -1 * transCenter.Y, MatrixOrder.Append);
-                    scaleMat.Scale(scale, scale, MatrixOrder.Append);
-                    scaleMat.Translate(transCenter.X, transCenter.Y, MatrixOrder.Append);
+                    scaleMat.Translate(-1 * transCenter.X, -1 * transCenter.Y, SKMatrixOrder.Append);
+                    scaleMat.Scale(scale, scale, SKMatrixOrder.Append);
+                    scaleMat.Translate(transCenter.X, transCenter.Y, SKMatrixOrder.Append);
                     path.Transform(scaleMat);
                 }
 
@@ -184,7 +184,7 @@ namespace Svg
         /// This method continually transforms the rectangle (fewer points) until it is contained by the path
         /// and returns the result of the search.  The scale factor is set to a constant 95%
         /// </remarks>
-        private float CalcScale(RectangleF bounds, GraphicsPath path, Graphics graphics = null)
+        private float CalcScale(RectangleF bounds, SKPath path, Graphics graphics = null)
         {
             var points = new PointF[] {
                 new PointF(bounds.Left, bounds.Top),
@@ -194,11 +194,11 @@ namespace Svg
             };
             var pathBounds = path.GetBounds();
             var pathCenter = new PointF(pathBounds.X + pathBounds.Width / 2, pathBounds.Y + pathBounds.Height / 2);
-            using (var transform = new Matrix())
+            using (var transform = new SKMatrix())
             {
-                transform.Translate(-1 * pathCenter.X, -1 * pathCenter.Y, MatrixOrder.Append);
-                transform.Scale(.95f, .95f, MatrixOrder.Append);
-                transform.Translate(pathCenter.X, pathCenter.Y, MatrixOrder.Append);
+                transform.Translate(-1 * pathCenter.X, -1 * pathCenter.Y, SKMatrixOrder.Append);
+                transform.Scale(.95f, .95f, SKMatrixOrder.Append);
+                transform.Translate(pathCenter.X, pathCenter.Y, SKMatrixOrder.Append);
 
                 while (!(path.IsVisible(points[0]) && path.IsVisible(points[1]) &&
                          path.IsVisible(points[2]) && path.IsVisible(points[3])))
@@ -226,9 +226,9 @@ namespace Svg
         // scale the outer rectangle to always encompass ellipse
         // cut the ellipse in half (either vertical or horizontal)
         // determine the region on each side of the ellipse
-        private static IEnumerable<GraphicsPath> GetDifference(RectangleF subject, GraphicsPath clip)
+        private static IEnumerable<SKPath> GetDifference(RectangleF subject, SKPath clip)
         {
-            var clipFlat = (GraphicsPath)clip.Clone();
+            var clipFlat = (SKPath)clip.Clone();
             clipFlat.Flatten();
             var clipBounds = clipFlat.GetBounds();
             var bounds = RectangleF.Union(subject, clipBounds);
@@ -271,7 +271,7 @@ namespace Svg
             leftPoints.Add(point);
             rightPoints.Add(point);
 
-            var path = new GraphicsPath(FillMode.Winding);
+            var path = new SKPath(FillMode.Winding);
             path.AddPolygon(leftPoints.ToArray());
             yield return path;
 
@@ -280,9 +280,9 @@ namespace Svg
             yield return path;
         }
 
-        private static GraphicsPath CreateGraphicsPath(PointF origin, PointF centerPoint, float effectiveRadius)
+        private static SKPath CreateSKPath(PointF origin, PointF centerPoint, float effectiveRadius)
         {
-            var path = new GraphicsPath();
+            var path = new SKPath();
 
             path.AddEllipse(
                 origin.X + centerPoint.X - effectiveRadius,

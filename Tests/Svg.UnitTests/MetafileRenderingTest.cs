@@ -31,7 +31,7 @@ namespace Svg.UnitTests
             // GDI+
             Metafile metafile;
             using (var stream = new MemoryStream())
-            using (var img = new Bitmap((int)svgDoc.Width.Value, (int)svgDoc.Height.Value)) // Not necessary if you use Control.CreateGraphics().
+            using (var img = new SKBitmap((int)svgDoc.Width.Value, (int)svgDoc.Height.Value)) // Not necessary if you use Control.CreateGraphics().
             using (Graphics ctrlGraphics = Graphics.FromImage(img)) // Control.CreateGraphics()
             {
                 IntPtr handle = ctrlGraphics.GetHdc();

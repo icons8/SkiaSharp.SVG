@@ -9,13 +9,13 @@ namespace Svg.Transforms
 
         public float Y { get; set; }
 
-        public override Matrix Matrix
+        public override SKMatrix SKMatrix
         {
             get
             {
-                var matrix = new Matrix();
-                matrix.Scale(X, Y);
-                return matrix;
+                var SKMatrix = new SKMatrix();
+                SKMatrix.Scale(X, Y);
+                return SKMatrix;
             }
         }
 

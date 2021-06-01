@@ -17,7 +17,7 @@ namespace Svg
     {
         private const string MimeTypeSvg = "image/svg+xml";
 
-        private GraphicsPath _path;
+        private SKPath _path;
         private bool _gettingBounds;
 
         /// <summary>
@@ -99,16 +99,16 @@ namespace Svg
         }
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             if (_path == null)
             {
                 // Same size of rectangle can suffice to provide bounds of the image
                 var rectangle = new RectangleF(Location.ToDeviceValue(renderer, this), SvgUnit.GetDeviceSize(Width, Height, renderer, this));
 
-                _path = new GraphicsPath();
+                _path = new SKPath();
                 _path.StartFigure();
                 _path.AddRectangle(rectangle);
                 _path.CloseFigure();
@@ -214,8 +214,8 @@ namespace Svg
                     }
                     else
                     {
-                        renderer.TranslateTransform(destRect.X, destRect.Y, MatrixOrder.Prepend);
-                        renderer.ScaleTransform(destRect.Width / srcRect.Width, destRect.Height / srcRect.Height, MatrixOrder.Prepend);
+                        renderer.TranslateTransform(destRect.X, destRect.Y, SKMatrixOrder.Prepend);
+                        renderer.ScaleTransform(destRect.Width / srcRect.Width, destRect.Height / srcRect.Height, SKMatrixOrder.Prepend);
                         try
                         {
                             renderer.SetBoundable(new GenericBoundable(srcRect));

@@ -124,11 +124,11 @@ namespace Svg.Web
 
                         SvgDocument document = SvgDocument.Open<SvgDocument>(this._state._context.Request.PhysicalPath, entities);
 
-                        using (Bitmap bitmap = document.Draw())
+                        using (SKBitmap SKBitmap = document.Draw())
                         {
                             using (MemoryStream ms = new MemoryStream())
                             {
-                                bitmap?.Save(ms, ImageFormat.Png);
+                                SKBitmap?.Save(ms, ImageFormat.Png);
                                 this._state._context.Response.ContentType = "image/png";
                                 ms.WriteTo(this._state._context.Response.OutputStream);
                             }

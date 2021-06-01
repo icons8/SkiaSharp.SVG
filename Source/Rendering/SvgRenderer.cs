@@ -57,8 +57,8 @@ namespace Svg
         {
             using (var attributes = new ImageAttributes())
             {
-                var matrix = new ColorMatrix { Matrix33 = opacity };
-                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                var SKMatrix = new ColorMatrix { SKMatrix33 = opacity };
+                attributes.SetColorMatrix(matrix, ColorMatrixFlag.Default, ColorAdjustType.SKBitmap);
                 var points = new[]
                 {
                     destRect.Location,
@@ -73,11 +73,11 @@ namespace Svg
         {
             _innerGraphics.DrawImageUnscaled(image, location);
         }
-        public void DrawPath(Pen pen, GraphicsPath path)
+        public void DrawPath(Pen pen, SKPath path)
         {
             _innerGraphics.DrawPath(pen, path);
         }
-        public void FillPath(Brush brush, GraphicsPath path)
+        public void FillPath(Brush brush, SKPath path)
         {
             _innerGraphics.FillPath(brush, path);
         }
@@ -85,11 +85,11 @@ namespace Svg
         {
             return _innerGraphics.Clip;
         }
-        public void RotateTransform(float fAngle, MatrixOrder order = MatrixOrder.Append)
+        public void RotateTransform(float fAngle, SKMatrixOrder order = SKMatrixOrder.Append)
         {
             _innerGraphics.RotateTransform(fAngle, order);
         }
-        public void ScaleTransform(float sx, float sy, MatrixOrder order = MatrixOrder.Append)
+        public void ScaleTransform(float sx, float sy, SKMatrixOrder order = SKMatrixOrder.Append)
         {
             _innerGraphics.ScaleTransform(sx, sy, order);
         }
@@ -97,7 +97,7 @@ namespace Svg
         {
             _innerGraphics.SetClip(region, combineMode);
         }
-        public void TranslateTransform(float dx, float dy, MatrixOrder order = MatrixOrder.Append)
+        public void TranslateTransform(float dx, float dy, SKMatrixOrder order = SKMatrixOrder.Append)
         {
             _innerGraphics.TranslateTransform(dx, dy, order);
         }
@@ -108,7 +108,7 @@ namespace Svg
             set { _innerGraphics.SmoothingMode = value; }
         }
 
-        public Matrix Transform
+        public SKMatrix Transform
         {
             get { return _innerGraphics.Transform; }
             set { _innerGraphics.Transform = value; }
@@ -158,7 +158,7 @@ namespace Svg
 
         public static ISvgRenderer FromNull()
         {
-            var img = new Bitmap(1, 1);
+            var img = new SKBitmap(1, 1);
             var g = CreateGraphics(img);
             return new SvgRenderer(g, img);
         }

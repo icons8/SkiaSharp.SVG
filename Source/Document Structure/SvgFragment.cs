@@ -195,14 +195,14 @@ namespace Svg
         }
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
         /// <value></value>
-        public GraphicsPath Path
+        public SKPath Path
         {
             get
             {
-                var path = new GraphicsPath();
+                var path = new SKPath();
 
                 AddPaths(this, path);
 

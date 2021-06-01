@@ -12,7 +12,7 @@ namespace Svg
         private SvgUnit _centerY = 0f;
         private SvgUnit _radius = 0f;
 
-        private GraphicsPath _path;
+        private SKPath _path;
 
         /// <summary>
         /// Gets the center point of the circle.
@@ -45,9 +45,9 @@ namespace Svg
         }
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> representing this element.
+        /// Gets the <see cref="SKPath"/> representing this element.
         /// </summary>
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             if (this._path == null || this.IsPathDirty)
             {
@@ -61,7 +61,7 @@ namespace Svg
                     this.IsPathDirty = false;
                 }
 
-                _path = new GraphicsPath();
+                _path = new SKPath();
                 _path.StartFigure();
                 var center = this.Center.ToDeviceValue(renderer, this);
                 var radius = this.Radius.ToDeviceValue(renderer, UnitRenderingType.Other, this) + halfStrokeWidth;

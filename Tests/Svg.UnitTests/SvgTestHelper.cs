@@ -258,7 +258,7 @@ namespace Svg.UnitTests
         /// <param name="img1">Image 1.</param>
         /// <param name="img2">Image 2.</param>
         /// <returns>If images are completely equal: true; otherwise: false</returns>
-        protected virtual bool ImagesAreEqual(Bitmap img1, Bitmap img2)
+        protected virtual bool ImagesAreEqual(SKBitmap img1, SKBitmap img2)
         {
             float imgEqualPercentage; // To ignore.
             return ImagesAreEqual(img1, img2, out imgEqualPercentage);
@@ -271,9 +271,9 @@ namespace Svg.UnitTests
         /// <param name="img2">Image 2.</param>
         /// <param name="imgEqualPercentage">Image equal value in percentage. 0.0% == completely unequal. 100.0% == completely equal.</param>
         /// <returns>If images are completely equal: true; otherwise: false</returns>
-        protected virtual bool ImagesAreEqual(Bitmap img1, Bitmap img2, out float imgEqualPercentage)
+        protected virtual bool ImagesAreEqual(SKBitmap img1, SKBitmap img2, out float imgEqualPercentage)
         {
-            Bitmap imgDiff; // To ignore.
+            SKBitmap imgDiff; // To ignore.
             return ImagesAreEqual(img1, img2, out imgEqualPercentage, out imgDiff);
         }
 
@@ -285,7 +285,7 @@ namespace Svg.UnitTests
         /// <param name="imgEqualPercentage">Image equal value in percentage. 0.0% == completely unequal. 100.0% == completely equal.</param>
         /// <param name="imgDiff">Image with red pixel where <paramref name="img1"/> and <paramref name="img2"/> are unequal.</param>
         /// <returns>If images are completely equal: true; otherwise: false</returns>
-        protected virtual bool ImagesAreEqual(Bitmap img1, Bitmap img2, out float imgEqualPercentage, out Bitmap imgDiff)
+        protected virtual bool ImagesAreEqual(SKBitmap img1, SKBitmap img2, out float imgEqualPercentage, out SKBitmap imgDiff)
         {
             // Defaults.
             var diffColor = Color.Red;
@@ -304,8 +304,8 @@ namespace Svg.UnitTests
             if (!img1.Size.Equals(img2.Size))
                 return false;
 
-            // Compare bitmaps.
-            imgDiff = new Bitmap(img1.Size.Width, img1.Size.Height);
+            // Compare SKBitmaps.
+            imgDiff = new SKBitmap(img1.Size.Width, img1.Size.Height);
             int diffPixelCount = 0;
             for (int i = 0; i < img1.Width; ++i)
             {

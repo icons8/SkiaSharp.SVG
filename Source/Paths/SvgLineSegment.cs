@@ -10,9 +10,9 @@ namespace Svg.Pathing
         {
         }
 
-        public override void AddToPath(GraphicsPath graphicsPath)
+        public override void AddToPath(SKPath SKPath)
         {
-            graphicsPath.AddLine(Start, End);
+            SKPath.AddLine(Start, End);
         }
 
         public override string ToString()

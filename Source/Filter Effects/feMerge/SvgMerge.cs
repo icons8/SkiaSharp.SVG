@@ -10,7 +10,7 @@ namespace Svg.FilterEffects
         {
             var children = this.Children.OfType<SvgMergeNode>().ToList();
             var inputImage = buffer[children.First().Input];
-            var result = new Bitmap(inputImage.Width, inputImage.Height);
+            var result = new SKBitmap(inputImage.Width, inputImage.Height);
             using (var g = Graphics.FromImage(result))
             {
                 foreach (var child in children)

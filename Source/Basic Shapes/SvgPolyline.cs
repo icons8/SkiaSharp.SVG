@@ -11,13 +11,13 @@ namespace Svg
     [SvgElement("polyline")]
     public partial class SvgPolyline : SvgPolygon
     {
-        private GraphicsPath _Path;
+        private SKPath _Path;
 
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             if (_Path == null || this.IsPathDirty)
             {
-                _Path = new GraphicsPath();
+                _Path = new SKPath();
 
                 try
                 {

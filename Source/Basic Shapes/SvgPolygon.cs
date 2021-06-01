@@ -9,7 +9,7 @@ namespace Svg
     [SvgElement("polygon")]
     public partial class SvgPolygon : SvgMarkerElement
     {
-        private GraphicsPath _path;
+        private SKPath _path;
 
         /// <summary>
         /// The points that make up the SvgPolygon
@@ -21,11 +21,11 @@ namespace Svg
             set { Attributes["points"] = value; IsPathDirty = true; }
         }
 
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             if (this._path == null || this.IsPathDirty)
             {
-                this._path = new GraphicsPath();
+                this._path = new SKPath();
                 this._path.StartFigure();
 
                 try

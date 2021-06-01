@@ -13,7 +13,7 @@ namespace Svg.Transforms
         private const string TranslateTransform = "translate";
         private const string RotateTransform = "rotate";
         private const string ScaleTransform = "scale";
-        private const string MatrixTransform = "matrix";
+        private const string SKMatrixTransform = "matrix";
         private const string ShearTransform = "shear";
         private const string SkewXTransform = "skewX";
         private const string SkewYTransform = "skewY";
@@ -24,7 +24,7 @@ namespace Svg.Transforms
             Translate,
             Rotate,
             Scale,
-            Matrix,
+            SKMatrix,
             Shear,
             SkewX,
             SkewY

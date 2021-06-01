@@ -4,7 +4,7 @@ using SkiaSharp;
 namespace Svg
 {
     /// <summary>
-    /// Represents an element that is using a GraphicsPath as rendering base.
+    /// Represents an element that is using a SKPath as rendering base.
     /// </summary>
     public abstract partial class SvgPathBasedElement : SvgVisualElement
     {
@@ -18,8 +18,8 @@ namespace Svg
                 if (Transforms == null || Transforms.Count == 0)
                     return path.GetBounds();
 
-                using (path = (GraphicsPath)path.Clone())
-                using (var matrix = Transforms.GetMatrix())
+                using (path = (SKPath)path.Clone())
+                using (var SKMatrix = Transforms.GetMatrix())
                 {
                     path.Transform(matrix);
                     return path.GetBounds();

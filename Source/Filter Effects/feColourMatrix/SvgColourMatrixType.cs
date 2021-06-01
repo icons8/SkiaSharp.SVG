@@ -9,7 +9,7 @@ namespace Svg.FilterEffects
     [TypeConverter(typeof(SvgColourMatrixTypeConverter))]
     public enum SvgColourMatrixType
     {
-        Matrix,
+        SKMatrix,
         Saturate,
         HueRotate,
         LuminanceToAlpha

@@ -127,13 +127,13 @@ namespace Svg
             set { Attributes["patternTransform"] = value; }
         }
 
-        private Matrix EffectivePatternTransform
+        private SKMatrix EffectivePatternTransform
         {
             get
             {
-                var transform = new Matrix();
+                var transform = new SKMatrix();
                 if (PatternTransform != null)
-                    using (var matrix = PatternTransform.GetMatrix())
+                    using (var SKMatrix = PatternTransform.GetMatrix())
                         transform.Multiply(matrix);
 
                 return transform;
@@ -210,7 +210,7 @@ namespace Svg
                 if (width <= 0f || height <= 0f)
                     return null;
 
-                var tile = new Bitmap((int)Math.Ceiling(width), (int)Math.Ceiling(height));
+                var tile = new SKBitmap((int)Math.Ceiling(width), (int)Math.Ceiling(height));
                 using (var tileRenderer = SvgRenderer.FromImage(tile))
                 {
                     tileRenderer.SetBoundable(renderingElement);

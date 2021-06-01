@@ -5,7 +5,7 @@ namespace Svg.Transforms
 {
     public abstract class SvgTransform : ICloneable
     {
-        public abstract Matrix Matrix { get; }
+        public abstract SKMatrix SKMatrix { get; }
         public abstract string WriteToString();
 
         public abstract object Clone();
@@ -17,12 +17,12 @@ namespace Svg.Transforms
             if (other == null)
                 return false;
 
-            return Matrix.Equals(other.Matrix);
+            return SKMatrix.Equals(other.Matrix);
         }
 
         public override int GetHashCode()
         {
-            return Matrix.GetHashCode();
+            return SKMatrix.GetHashCode();
         }
 
         public static bool operator ==(SvgTransform lhs, SvgTransform rhs)

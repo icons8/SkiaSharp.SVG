@@ -14,7 +14,7 @@ namespace Svg
         private SvgUnit _endX = 0f;
         private SvgUnit _endY = 0f;
 
-        private GraphicsPath _path;
+        private SKPath _path;
 
         [SvgAttribute("x1")]
         public SvgUnit StartX
@@ -85,7 +85,7 @@ namespace Svg
             }
         }
 
-        public override System.Drawing.Drawing2D.GraphicsPath Path(ISvgRenderer renderer)
+        public override System.Drawing.Drawing2D.SKPath Path(ISvgRenderer renderer)
         {
             if ((this._path == null || this.IsPathDirty) && base.StrokeWidth > 0)
             {
@@ -94,7 +94,7 @@ namespace Svg
                 PointF end = new PointF(this.EndX.ToDeviceValue(renderer, UnitRenderingType.Horizontal, this),
                                         this.EndY.ToDeviceValue(renderer, UnitRenderingType.Vertical, this));
 
-                this._path = new GraphicsPath();
+                this._path = new SKPath();
 
                 // If it is to render, don't need to consider stroke width.
                 // i.e stroke width only to be considered when calculating boundary

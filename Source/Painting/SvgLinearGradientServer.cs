@@ -69,11 +69,11 @@ namespace Svg
 
                 using (var transform = EffectiveGradientTransform)
                 {
-                    transform.Translate(bounds.X, bounds.Y, MatrixOrder.Prepend);
+                    transform.Translate(bounds.X, bounds.Y, SKMatrixOrder.Prepend);
                     if (this.GradientUnits == SvgCoordinateUnits.ObjectBoundingBox)
                     {
                         // Transform a normal (i.e. perpendicular line) according to the transform
-                        transform.Scale(bounds.Width, bounds.Height, MatrixOrder.Prepend);
+                        transform.Scale(bounds.Width, bounds.Height, SKMatrixOrder.Prepend);
                     }
                     transform.TransformPoints(points);
                 }

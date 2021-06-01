@@ -5,17 +5,17 @@ using System.Globalization;
 namespace Svg.Transforms
 {
     /// <summary>
-    /// The class which applies custom transform to this Matrix (Required for projects created by the Inkscape).
+    /// The class which applies custom transform to this SKMatrix (Required for projects created by the Inkscape).
     /// </summary>
     public sealed class SvgMatrix : SvgTransform
     {
         public List<float> Points { get; set; }
 
-        public override Matrix Matrix
+        public override SKMatrix SKMatrix
         {
             get
             {
-                return new Matrix(
+                return new SKMatrix(
                     Points[0],
                     Points[1],
                     Points[2],

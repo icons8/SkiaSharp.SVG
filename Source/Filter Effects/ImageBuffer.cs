@@ -6,7 +6,7 @@ using System.Drawing.Imaging;
 
 namespace Svg.FilterEffects
 {
-    public class ImageBuffer : Dictionary<string, Bitmap>, IDisposable
+    public class ImageBuffer : Dictionary<string, SKBitmap>, IDisposable
     {
         private const string BufferKey = "__!!BUFFER";
 
@@ -15,9 +15,9 @@ namespace Svg.FilterEffects
         private readonly Action<ISvgRenderer> _renderMethod;
         private readonly float _inflate;
 
-        private Matrix _transform;
+        private SKMatrix _transform;
 
-        public Matrix Transform
+        public SKMatrix Transform
         {
             get { return _transform?.Clone(); }
             set
@@ -27,12 +27,12 @@ namespace Svg.FilterEffects
             }
         }
 
-        public Bitmap Buffer
+        public SKBitmap Buffer
         {
             get { return this[BufferKey]; }
         }
 
-        public new Bitmap this[string key]
+        public new SKBitmap this[string key]
         {
             get { return ProcessResult(ProcessKey(key), base[ProcessKey(key)]); }
             set { base[string.IsNullOrEmpty(key) ? BufferKey : key] = value; }
@@ -53,7 +53,7 @@ namespace Svg.FilterEffects
             this[SvgFilterPrimitive.StrokePaint] = null;
         }
 
-        public new void Add(string key, Bitmap value)
+        public new void Add(string key, SKBitmap value)
         {
             base.Add(ProcessKey(key), value);
         }
@@ -84,7 +84,7 @@ namespace Svg.FilterEffects
             }
         }
 
-        public new bool TryGetValue(string key, out Bitmap value)
+        public new bool TryGetValue(string key, out SKBitmap value)
         {
             if (base.TryGetValue(ProcessKey(key), out value))
             {
@@ -94,7 +94,7 @@ namespace Svg.FilterEffects
             return false;
         }
 
-        private Bitmap ProcessResult(string key, Bitmap curr)
+        private SKBitmap ProcessResult(string key, SKBitmap curr)
         {
             if (curr == null)
             {
@@ -122,12 +122,12 @@ namespace Svg.FilterEffects
             return string.IsNullOrEmpty(key) ? ContainsKey(BufferKey) ? BufferKey : SvgFilterPrimitive.SourceGraphic : key;
         }
 
-        private Bitmap CreateSourceGraphic()
+        private SKBitmap CreateSourceGraphic()
         {
-            var graphic = new Bitmap((int)(_bounds.Width + 2 * _inflate * _bounds.Width + _bounds.X),
+            var graphic = new SKBitmap((int)(_bounds.Width + 2 * _inflate * _bounds.Width + _bounds.X),
                                      (int)(_bounds.Height + 2 * _inflate * _bounds.Height + _bounds.Y));
             using (var renderer = SvgRenderer.FromImage(graphic))
-            using (var transform = new Matrix())
+            using (var transform = new SKMatrix())
             {
                 renderer.SetBoundable(_renderer.GetBoundable());
                 transform.Translate(_bounds.Width * _inflate, _bounds.Height * _inflate);
@@ -139,7 +139,7 @@ namespace Svg.FilterEffects
             return graphic;
         }
 
-        private Bitmap CreateSourceAlpha()
+        private SKBitmap CreateSourceAlpha()
         {
             var source = this[SvgFilterPrimitive.SourceGraphic];
 
@@ -151,9 +151,9 @@ namespace Svg.FilterEffects
                 new float[] {0, 0, 0, 0, 0},    // translations
             };
 
-            var matrix = new ColorMatrix(colorMatrixElements);
+            var SKMatrix = new ColorMatrix(colorMatrixElements);
 
-            var sourceAlpha = new Bitmap(source.Width, source.Height);
+            var sourceAlpha = new SKBitmap(source.Width, source.Height);
 
             using (var graphics = Graphics.FromImage(sourceAlpha))
             using (var attributes = new ImageAttributes())

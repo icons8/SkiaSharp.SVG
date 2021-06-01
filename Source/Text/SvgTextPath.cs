@@ -50,13 +50,13 @@ namespace Svg
             set { Attributes["href"] = value; }
         }
 
-        protected override GraphicsPath GetBaselinePath(ISvgRenderer renderer)
+        protected override SKPath GetBaselinePath(ISvgRenderer renderer)
         {
             var path = this.OwnerDocument.IdManager.GetElementById(this.ReferencedPath) as SvgVisualElement;
             if (path == null) return null;
-            var pathData = (GraphicsPath)path.Path(renderer).Clone();
+            var pathData = (SKPath)path.Path(renderer).Clone();
             if (path.Transforms != null && path.Transforms.Count > 0)
-                using (var matrix = path.Transforms.GetMatrix())
+                using (var SKMatrix = path.Transforms.GetMatrix())
                     pathData.Transform(matrix);
             return pathData;
         }

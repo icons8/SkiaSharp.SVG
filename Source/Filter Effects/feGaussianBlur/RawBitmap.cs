@@ -5,20 +5,20 @@ using System.Runtime.InteropServices;
 
 namespace Svg.FilterEffects
 {
-    internal sealed class RawBitmap : IDisposable
+    internal sealed class RawSKBitmap : IDisposable
     {
-        private Bitmap _originBitmap;
-        private BitmapData _bitmapData;
+        private SKBitmap _originSKBitmap;
+        private SKBitmapData _SKBitmapData;
         private IntPtr _ptr;
         private int _bytes;
         private byte[] _argbValues;
 
-        public RawBitmap(Bitmap originBitmap)
+        public RawSKBitmap(SKBitmap originSKBitmap)
         {
-            _originBitmap = originBitmap;
-            _bitmapData = _originBitmap.LockBits(new Rectangle(0, 0, _originBitmap.Width, _originBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-            _ptr = _bitmapData.Scan0;
-            _bytes = this.Stride * _originBitmap.Height;
+            _originSKBitmap = originSKBitmap;
+            _SKBitmapData = _originSKBitmap.LockBits(new Rectangle(0, 0, _originSKBitmap.Width, _originSKBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+            _ptr = _SKBitmapData.Scan0;
+            _bytes = this.Stride * _originSKBitmap.Height;
             _argbValues = new byte[_bytes];
             Marshal.Copy(_ptr, _argbValues, 0, _bytes);
         }
@@ -27,24 +27,24 @@ namespace Svg.FilterEffects
 
         public void Dispose()
         {
-            _originBitmap.UnlockBits(_bitmapData);
+            _originSKBitmap.UnlockBits(_SKBitmapData);
         }
 
         #endregion
 
         public int Stride
         {
-            get { return _bitmapData.Stride; }
+            get { return _SKBitmapData.Stride; }
         }
 
         public int Width
         {
-            get { return _bitmapData.Width; }
+            get { return _SKBitmapData.Width; }
         }
 
         public int Height
         {
-            get { return _bitmapData.Height; }
+            get { return _SKBitmapData.Height; }
         }
 
         public byte[] ArgbValues
@@ -56,12 +56,12 @@ namespace Svg.FilterEffects
             }
         }
 
-        public Bitmap Bitmap
+        public SKBitmap SKBitmap
         {
             get
             {
                 Marshal.Copy(_argbValues, 0, _ptr, _bytes);
-                return _originBitmap;
+                return _originSKBitmap;
             }
         }
 

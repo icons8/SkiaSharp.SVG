@@ -26,7 +26,7 @@ namespace Svg
             _ppi = ppi;
         }
 
-        public void AddStringToPath(ISvgRenderer renderer, GraphicsPath path, string text, PointF location)
+        public void AddStringToPath(ISvgRenderer renderer, SKPath path, string text, PointF location)
         {
             path.AddString(text, _font.FontFamily, (int)_font.Style, _font.Size, location, StringFormat.GenericTypographic);
         }

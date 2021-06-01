@@ -67,9 +67,9 @@ namespace SvgConsole
                 svgDocument.Height = height.Value;
             }
 
-            using (var bitmap = svgDocument.Draw())
+            using (var SKBitmap = svgDocument.Draw())
             {
-                bitmap?.Save(outputPath);
+                SKBitmap?.Save(outputPath);
             }
         }
 

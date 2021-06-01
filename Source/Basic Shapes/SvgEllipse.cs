@@ -13,7 +13,7 @@ namespace Svg
         private SvgUnit _radiusX = 0f;
         private SvgUnit _radiusY = 0f;
 
-        private GraphicsPath _path;
+        private SKPath _path;
 
         [SvgAttribute("cx")]
         public virtual SvgUnit CenterX
@@ -44,10 +44,10 @@ namespace Svg
         }
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
         /// <value></value>
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             if (this._path == null || this.IsPathDirty)
             {
@@ -65,7 +65,7 @@ namespace Svg
                 var radiusX = this.RadiusX.ToDeviceValue(renderer, UnitRenderingType.Other, this) + halfStrokeWidth;
                 var radiusY = this.RadiusY.ToDeviceValue(renderer, UnitRenderingType.Other, this) + halfStrokeWidth;
 
-                this._path = new GraphicsPath();
+                this._path = new SKPath();
                 _path.StartFigure();
                 _path.AddEllipse(center.X - radiusX, center.Y - radiusY, 2 * radiusX, 2 * radiusY);
                 _path.CloseFigure();

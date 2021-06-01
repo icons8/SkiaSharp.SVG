@@ -271,8 +271,8 @@ namespace Svg
                 if (Transforms == null || Transforms.Count == 0)
                     return path.GetBounds();
 
-                using (path = (GraphicsPath)path.Clone())
-                using (var matrix = Transforms.GetMatrix())
+                using (path = (SKPath)path.Clone())
+                using (var SKMatrix = Transforms.GetMatrix())
                 {
                     path.Transform(matrix);
                     return path.GetBounds();
@@ -290,7 +290,7 @@ namespace Svg
         {
             return (this.Nodes == null || this.Nodes.Count < 1 ? this.Children.OfType<ISvgNode>().Where(o => !(o is ISvgDescriptiveElement)) : this.Nodes);
         }
-        protected virtual GraphicsPath GetBaselinePath(ISvgRenderer renderer)
+        protected virtual SKPath GetBaselinePath(ISvgRenderer renderer)
         {
             return null;
         }
@@ -299,13 +299,13 @@ namespace Svg
             return 0;
         }
 
-        private GraphicsPath _path;
+        private SKPath _path;
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
         /// <value></value>
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             //if there is a TSpan inside of this text element then path should not be null (even if this text is empty!)
             var nodes = GetContentNodes().Where(x => x is SvgContentNode &&
@@ -369,7 +369,7 @@ namespace Svg
                 }
             }
 
-            var path = state.GetPath() ?? new GraphicsPath();
+            var path = state.GetPath() ?? new SKPath();
 
             // Apply any text length adjustments
             if (doMeasurements)
@@ -396,11 +396,11 @@ namespace Svg
                         }
                         else
                         {
-                            using (var matrix = new Matrix())
+                            using (var SKMatrix = new SKMatrix())
                             {
-                                matrix.Translate(-1 * state.TextBounds.X, 0, MatrixOrder.Append);
-                                matrix.Scale(specLength / actLength, 1, MatrixOrder.Append);
-                                matrix.Translate(state.TextBounds.X, 0, MatrixOrder.Append);
+                                SKMatrix.Translate(-1 * state.TextBounds.X, 0, SKMatrixOrder.Append);
+                                SKMatrix.Scale(specLength / actLength, 1, SKMatrixOrder.Append);
+                                SKMatrix.Translate(state.TextBounds.X, 0, SKMatrixOrder.Append);
                                 path.Transform(matrix);
                             }
                         }
@@ -476,7 +476,7 @@ namespace Svg
             }
         }
 
-        //private static GraphicsPath GetPath(string text, Font font)
+        //private static SKPath GetPath(string text, Font font)
         //{
         //    var fontMetrics = (from c in text.Distinct()
         //                       select new { Char = c, Metrics = Metrics(c, font) }).
@@ -486,7 +486,7 @@ namespace Svg
         //}
         //private static RectangleF Metrics(char c, Font font)
         //{
-        //    var path = new GraphicsPath();
+        //    var path = new SKPath();
         //    path.AddString(c.ToString(), font.FontFamily, (int)font.Style, font.Size, new Point(0, 0), StringFormat.GenericTypographic);
         //    return path.GetBounds();
         //}
@@ -583,12 +583,12 @@ namespace Svg
         private class TextDrawingState
         {
             private float _xAnchor = float.MinValue;
-            private IList<GraphicsPath> _anchoredPaths = new List<GraphicsPath>();
-            private GraphicsPath _currPath = null;
-            private GraphicsPath _finalPath = null;
+            private IList<SKPath> _anchoredPaths = new List<SKPath>();
+            private SKPath _currPath = null;
+            private SKPath _finalPath = null;
             private float _authorPathLength = 0;
 
-            public GraphicsPath BaselinePath { get; set; }
+            public SKPath BaselinePath { get; set; }
             public PointF Current { get; set; }
             public RectangleF TextBounds { get; set; }
             public SvgTextBase Element { get; set; }
@@ -621,7 +621,7 @@ namespace Svg
                     _authorPathLength = parent._authorPathLength;
             }
 
-            public GraphicsPath GetPath()
+            public SKPath GetPath()
             {
                 FlushPath();
                 return _finalPath;
@@ -840,15 +840,15 @@ namespace Svg
             private void DrawStringOnCurrPath(string value, IFontDefn font, PointF location, float fontBaselineHeight, float rotation)
             {
                 var drawPath = _currPath;
-                if (rotation != 0.0f) drawPath = new GraphicsPath();
+                if (rotation != 0.0f) drawPath = new SKPath();
                 font.AddStringToPath(this.Renderer, drawPath, value, new PointF(location.X, location.Y - fontBaselineHeight));
                 if (rotation != 0.0f && drawPath.PointCount > 0)
                 {
-                    using (var matrix = new Matrix())
+                    using (var SKMatrix = new SKMatrix())
                     {
-                        matrix.Translate(-1 * location.X, -1 * location.Y, MatrixOrder.Append);
-                        matrix.Rotate(rotation, MatrixOrder.Append);
-                        matrix.Translate(location.X, location.Y, MatrixOrder.Append);
+                        SKMatrix.Translate(-1 * location.X, -1 * location.Y, SKMatrixOrder.Append);
+                        SKMatrix.Rotate(rotation, SKMatrixOrder.Append);
+                        SKMatrix.Translate(location.X, location.Y, SKMatrixOrder.Append);
                         drawPath.Transform(matrix);
                         _currPath.AddPath(drawPath, false);
                     }
@@ -860,7 +860,7 @@ namespace Svg
             {
                 if (_currPath == null)
                 {
-                    _currPath = new GraphicsPath();
+                    _currPath = new SKPath();
                     _currPath.StartFigure();
 
                     var currState = this;
@@ -914,9 +914,9 @@ namespace Svg
 
                         if (xOffset != 0)
                         {
-                            using (var matrix = new Matrix())
+                            using (var SKMatrix = new SKMatrix())
                             {
-                                matrix.Translate(xOffset, 0);
+                                SKMatrix.Translate(xOffset, 0);
                                 foreach (var path in _anchoredPaths)
                                 {
                                     path.Transform(matrix);

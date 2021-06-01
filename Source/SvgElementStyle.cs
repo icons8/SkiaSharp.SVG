@@ -167,7 +167,7 @@ namespace Svg
 
         /// <summary>
         /// Gets or sets the color space for imaging operations performed via filter effects.
-        /// NOT currently mapped through to bitmap
+        /// NOT currently mapped through to SKBitmap
         /// </summary>
         [SvgAttribute("color-interpolation-filters")]
         public SvgColourInterpolation ColorInterpolationFilters

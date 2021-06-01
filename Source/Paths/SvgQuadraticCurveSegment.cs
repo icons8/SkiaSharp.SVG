@@ -35,9 +35,9 @@ namespace Svg.Pathing
             ControlPoint = controlPoint;
         }
 
-        public override void AddToPath(GraphicsPath graphicsPath)
+        public override void AddToPath(SKPath SKPath)
         {
-            graphicsPath.AddBezier(Start, FirstControlPoint, SecondControlPoint, End);
+            SKPath.AddBezier(Start, FirstControlPoint, SecondControlPoint, End);
         }
 
         public override string ToString()

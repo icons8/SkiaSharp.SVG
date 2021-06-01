@@ -42,12 +42,12 @@ namespace Svg.Transforms
         /// Multiplies all matrices
         /// </summary>
         /// <returns>The result of all transforms</returns>
-        public Matrix GetMatrix()
+        public SKMatrix GetMatrix()
         {
-            var transformMatrix = new Matrix();
+            var transformMatrix = new SKMatrix();
 
             foreach (var transform in this)
-                using (var matrix = transform.Matrix)
+                using (var SKMatrix = transform.Matrix)
                     transformMatrix.Multiply(matrix);
 
             return transformMatrix;

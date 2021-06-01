@@ -17,7 +17,7 @@ namespace Svg
         private SvgUnit _cornerRadiusX = 0f;
         private SvgUnit _cornerRadiusY = 0f;
 
-        private GraphicsPath _path;
+        private SKPath _path;
 
         /// <summary>
         /// Gets an <see cref="SvgPoint"/> representing the top left point of the rectangle.
@@ -110,9 +110,9 @@ namespace Svg
         }
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             if (_path == null || IsPathDirty)
             {
@@ -140,14 +140,14 @@ namespace Svg
                     var location = strokedLocation.ToDeviceValue(renderer, this);
                     var rectangle = new RectangleF(location, new SizeF(width, height));
 
-                    _path = new GraphicsPath();
+                    _path = new SKPath();
                     _path.StartFigure();
                     _path.AddRectangle(rectangle);
                     _path.CloseFigure();
                 }
                 else
                 {
-                    _path = new GraphicsPath();
+                    _path = new SKPath();
                     var arcBounds = new RectangleF();
                     var lineStart = new PointF();
                     var lineEnd = new PointF();

@@ -18,9 +18,9 @@ namespace Svg
         private Region _previousClip;
 
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
-        public abstract GraphicsPath Path(ISvgRenderer renderer);
+        public abstract SKPath Path(ISvgRenderer renderer);
 
         PointF ISvgBoundable.Location
         {
@@ -159,7 +159,7 @@ namespace Svg
                             scaleY = Math.Max(scaleY, Math.Abs(transform.Elements[3]));
                         }
 
-                        using (var canvas = new Bitmap((int)Math.Ceiling(bounds.Width * scaleX), (int)Math.Ceiling(bounds.Height * scaleY)))
+                        using (var canvas = new SKBitmap((int)Math.Ceiling(bounds.Width * scaleX), (int)Math.Ceiling(bounds.Height * scaleY)))
                         {
                             using (var canvasRenderer = SvgRenderer.FromImage(canvas))
                             {
@@ -278,14 +278,14 @@ namespace Svg
                             switch (StrokeLineCap)
                             {
                                 case SvgStrokeLineCap.Round:
-                                    using (var capPath = new GraphicsPath())
+                                    using (var capPath = new SKPath())
                                     {
                                         capPath.AddEllipse(path.PathPoints[0].X - strokeWidth / 2f, path.PathPoints[0].Y - strokeWidth / 2f, strokeWidth, strokeWidth);
                                         renderer.FillPath(brush, capPath);
                                     }
                                     break;
                                 case SvgStrokeLineCap.Square:
-                                    using (var capPath = new GraphicsPath())
+                                    using (var capPath = new SKPath())
                                     {
                                         capPath.AddRectangle(new RectangleF(path.PathPoints[0].X - strokeWidth / 2f, path.PathPoints[0].Y - strokeWidth / 2f, strokeWidth, strokeWidth));
                                         renderer.FillPath(brush, capPath);

@@ -3,7 +3,7 @@ using System.Drawing;
 namespace Svg.FilterEffects
 {
     /// <summary>
-    /// Note: this is not used in calculations to bitmap - used only to allow for svg xml output
+    /// Note: this is not used in calculations to SKBitmap - used only to allow for svg xml output
     /// </summary>
     [SvgElement("feOffset")]
     public partial class SvgOffset : SvgFilterPrimitive
@@ -14,7 +14,7 @@ namespace Svg.FilterEffects
         /// <summary>
         /// The amount to offset the input graphic along the x-axis. The offset amount is expressed in the coordinate system established by attribute 'primitiveUnits' on the 'filter' element.
         /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-        /// Note: this is not used in calculations to bitmap - used only to allow for svg xml output
+        /// Note: this is not used in calculations to SKBitmap - used only to allow for svg xml output
         /// </summary>
         [SvgAttribute("dx")]
         public SvgUnit Dx
@@ -26,7 +26,7 @@ namespace Svg.FilterEffects
         /// <summary>
         /// The amount to offset the input graphic along the y-axis. The offset amount is expressed in the coordinate system established by attribute 'primitiveUnits' on the 'filter' element.
         /// If the attribute is not specified, then the effect is as if a value of 0 were specified.
-        /// Note: this is not used in calculations to bitmap - used only to allow for svg xml output
+        /// Note: this is not used in calculations to SKBitmap - used only to allow for svg xml output
         /// </summary>
         [SvgAttribute("dy")]
         public SvgUnit Dy
@@ -38,7 +38,7 @@ namespace Svg.FilterEffects
         public override void Process(ImageBuffer buffer)
         {
             var inputImage = buffer[this.Input];
-            var result = new Bitmap(inputImage.Width, inputImage.Height);
+            var result = new SKBitmap(inputImage.Width, inputImage.Height);
 
             var pts = new PointF[] { new PointF(this.Dx.ToDeviceValue(null, UnitRenderingType.Horizontal, null),
                                                 this.Dy.ToDeviceValue(null, UnitRenderingType.Vertical, null)) };

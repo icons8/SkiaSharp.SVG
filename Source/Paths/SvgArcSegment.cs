@@ -43,7 +43,7 @@ namespace Svg.Pathing
             return DoublePI - (ta - tb);
         }
 
-        public override void AddToPath(GraphicsPath graphicsPath)
+        public override void AddToPath(SKPath SKPath)
         {
             if (Start == End)
             {
@@ -52,7 +52,7 @@ namespace Svg.Pathing
 
             if (RadiusX == 0.0f && RadiusY == 0.0f)
             {
-                graphicsPath.AddLine(Start, End);
+                SKPath.AddLine(Start, End);
                 return;
             }
 
@@ -123,7 +123,7 @@ namespace Svg.Pathing
                 var dxe = t * (cosPhi * rx * sinTheta2 + sinPhi * ry * cosTheta2);
                 var dye = t * (sinPhi * rx * sinTheta2 - cosPhi * ry * cosTheta2);
 
-                graphicsPath.AddBezier(startX, startY, (float)(startX + dx1), (float)(startY + dy1),
+                SKPath.AddBezier(startX, startY, (float)(startX + dx1), (float)(startY + dy1),
                     (float)(endpointX + dxe), (float)(endpointY + dye), (float)endpointX, (float)endpointY);
 
                 theta1 = theta2;

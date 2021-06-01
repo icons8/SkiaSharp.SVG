@@ -10,7 +10,7 @@ namespace SVGViewer
         private readonly Stack<ISvgBoundable> _boundables = new Stack<ISvgBoundable>();
 
         private Region _clip = new Region();
-        private Matrix _transform = new Matrix();
+        private SKMatrix _transform = new SKMatrix();
 
         public void SetBoundable(ISvgBoundable boundable)
         {
@@ -40,25 +40,25 @@ namespace SVGViewer
         public void DrawImageUnscaled(Image image, Point location)
         {
         }
-        public void DrawPath(Pen pen, GraphicsPath path)
+        public void DrawPath(Pen pen, SKPath path)
         {
-            var newPath = (GraphicsPath)path.Clone();
+            var newPath = (SKPath)path.Clone();
             newPath.Transform(_transform);
         }
-        public void FillPath(Brush brush, GraphicsPath path)
+        public void FillPath(Brush brush, SKPath path)
         {
-            var newPath = (GraphicsPath)path.Clone();
+            var newPath = (SKPath)path.Clone();
             newPath.Transform(_transform);
         }
         public Region GetClip()
         {
             return _clip;
         }
-        public void RotateTransform(float fAngle, MatrixOrder order = MatrixOrder.Append)
+        public void RotateTransform(float fAngle, SKMatrixOrder order = SKMatrixOrder.Append)
         {
             _transform.Rotate(fAngle, order);
         }
-        public void ScaleTransform(float sx, float sy, MatrixOrder order = MatrixOrder.Append)
+        public void ScaleTransform(float sx, float sy, SKMatrixOrder order = SKMatrixOrder.Append)
         {
             _transform.Scale(sx, sy, order);
         }
@@ -88,7 +88,7 @@ namespace SVGViewer
                     break;
             }
         }
-        public void TranslateTransform(float dx, float dy, MatrixOrder order = MatrixOrder.Append)
+        public void TranslateTransform(float dx, float dy, SKMatrixOrder order = SKMatrixOrder.Append)
         {
             _transform.Translate(dx, dy, order);
         }
@@ -99,7 +99,7 @@ namespace SVGViewer
             set { /* Do Nothing */ }
         }
 
-        public Matrix Transform
+        public SKMatrix Transform
         {
             get { return _transform?.Clone(); }
             set

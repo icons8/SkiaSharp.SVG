@@ -7,7 +7,7 @@ using System.Linq;
 namespace Svg.FilterEffects
 {
     /// <summary>
-    /// Note: this is not used in calculations to bitmap - used only to allow for svg xml output
+    /// Note: this is not used in calculations to SKBitmap - used only to allow for svg xml output
     /// </summary>
     [SvgElement("feColorMatrix")]
     public partial class SvgColourMatrix : SvgFilterPrimitive
@@ -16,9 +16,9 @@ namespace Svg.FilterEffects
         private string _values;
 
         /// <summary>
-        /// matrix | saturate | hueRotate | luminanceToAlpha
-        /// Indicates the type of matrix operation. The keyword 'matrix' indicates that a full 5x4 matrix of values will be provided. The other keywords represent convenience shortcuts to allow commonly used color operations to be performed without specifying a complete matrix. If attribute 'type' is not specified, then the effect is as if a value of matrix were specified.
-        /// Note: this is not used in calculations to bitmap - used only to allow for svg xml output
+        /// SKMatrix | saturate | hueRotate | luminanceToAlpha
+        /// Indicates the type of SKMatrix operation. The keyword 'matrix' indicates that a full 5x4 SKMatrix of values will be provided. The other keywords represent convenience shortcuts to allow commonly used color operations to be performed without specifying a complete SKMatrix. If attribute 'type' is not specified, then the effect is as if a value of SKMatrix were specified.
+        /// Note: this is not used in calculations to SKBitmap - used only to allow for svg xml output
         /// </summary>
         [SvgAttribute("type")]
         public SvgColourMatrixType Type
@@ -30,7 +30,7 @@ namespace Svg.FilterEffects
         /// <summary>
         /// list of numbers
         /// The contents of ?values? depends on the value of attribute ?type?:
-        /// Note: this is not used in calculations to bitmap - used only to allow for svg xml output
+        /// Note: this is not used in calculations to SKBitmap - used only to allow for svg xml output
         /// </summary>
         [SvgAttribute("values")]
         public string Values
@@ -85,7 +85,7 @@ namespace Svg.FilterEffects
                         new float[] {0, 0, 0, 0, 1}
                     };
                     break;
-                default: // Matrix
+                default: // SKMatrix
                     var parts = this.Values.Split(new char[] { ' ', '\t', '\n', '\r', ',' }, StringSplitOptions.RemoveEmptyEntries);
                     colorMatrixElements = new float[5][];
                     for (int i = 0; i < 4; i++)
@@ -100,9 +100,9 @@ namespace Svg.FilterEffects
             var colorMatrix = new ColorMatrix(colorMatrixElements);
             using (var imageAttrs = new ImageAttributes())
             {
-                imageAttrs.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.Bitmap);
+                imageAttrs.SetColorMatrix(colorMatrix, ColorMatrixFlag.Default, ColorAdjustType.SKBitmap);
 
-                var result = new Bitmap(inputImage.Width, inputImage.Height);
+                var result = new SKBitmap(inputImage.Width, inputImage.Height);
                 using (var g = Graphics.FromImage(result))
                 {
                     g.DrawImage(inputImage, new Rectangle(0, 0, inputImage.Width, inputImage.Height),

@@ -9,7 +9,7 @@ namespace Svg
     [SvgElement("clipPath")]
     public partial class SvgClipPath : SvgElement
     {
-        private GraphicsPath _path;
+        private SKPath _path;
 
         /// <summary>
         /// Specifies the coordinate system for the clipping path.
@@ -31,7 +31,7 @@ namespace Svg
         {
             if (_path == null || IsPathDirty)
             {
-                _path = new GraphicsPath();
+                _path = new SKPath();
 
                 foreach (var element in Children)
                     CombinePaths(_path, element, renderer);
@@ -42,12 +42,12 @@ namespace Svg
             var result = _path;
             if (ClipPathUnits == SvgCoordinateUnits.ObjectBoundingBox)
             {
-                result = (GraphicsPath)_path.Clone();
-                using (var transform = new Matrix())
+                result = (SKPath)_path.Clone();
+                using (var transform = new SKMatrix())
                 {
                     var bounds = owner.Bounds;
-                    transform.Scale(bounds.Width, bounds.Height, MatrixOrder.Append);
-                    transform.Translate(bounds.Left, bounds.Top, MatrixOrder.Append);
+                    transform.Scale(bounds.Width, bounds.Height, SKMatrixOrder.Append);
+                    transform.Translate(bounds.Left, bounds.Top, SKMatrixOrder.Append);
                     result.Transform(transform);
                 }
             }
@@ -61,7 +61,7 @@ namespace Svg
         /// <param name="path"></param>
         /// <param name="element"></param>
         /// <param name="renderer"></param>
-        private void CombinePaths(GraphicsPath path, SvgElement element, ISvgRenderer renderer)
+        private void CombinePaths(SKPath path, SvgElement element, ISvgRenderer renderer)
         {
             var graphicsElement = element as SvgVisualElement;
             if (graphicsElement != null)
@@ -72,7 +72,7 @@ namespace Svg
                     path.FillMode = graphicsElement.ClipRule == SvgClipRule.NonZero ? FillMode.Winding : FillMode.Alternate;
 
                     if (graphicsElement.Transforms != null)
-                        using (var matrix = graphicsElement.Transforms.GetMatrix())
+                        using (var SKMatrix = graphicsElement.Transforms.GetMatrix())
                             childPath.Transform(matrix);
 
                     if (childPath.PointCount > 0)

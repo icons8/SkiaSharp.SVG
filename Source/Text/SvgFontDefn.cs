@@ -58,12 +58,12 @@ namespace Svg
             return new SizeF(nonEmpty.Last().Right - nonEmpty.First().Left, Ascent(renderer));
         }
 
-        public void AddStringToPath(ISvgRenderer renderer, GraphicsPath path, string text, PointF location)
+        public void AddStringToPath(ISvgRenderer renderer, SKPath path, string text, PointF location)
         {
             var textPath = GetPath(renderer, text, null, false);
             if (textPath.PointCount > 0)
             {
-                using (var translate = new Matrix())
+                using (var translate = new SKMatrix())
                 {
                     translate.Translate(location.X, location.Y);
                     textPath.Transform(translate);
@@ -72,21 +72,21 @@ namespace Svg
             }
         }
 
-        private GraphicsPath GetPath(ISvgRenderer renderer, string text, IList<RectangleF> ranges, bool measureSpaces)
+        private SKPath GetPath(ISvgRenderer renderer, string text, IList<RectangleF> ranges, bool measureSpaces)
         {
             EnsureDictionaries();
 
             RectangleF bounds;
             SvgGlyph glyph;
             SvgKern kern;
-            GraphicsPath path;
+            SKPath path;
             SvgGlyph prevGlyph = null;
-            Matrix scaleMatrix;
+            SKMatrix scaleMatrix;
             float xPos = 0;
 
             var ascent = Ascent(renderer);
 
-            var result = new GraphicsPath();
+            var result = new SKPath();
             if (string.IsNullOrEmpty(text)) return result;
 
             for (int i = 0; i < text.Length; i++)
@@ -96,10 +96,10 @@ namespace Svg
                 {
                     xPos -= kern.Kerning * _emScale;
                 }
-                path = (GraphicsPath)glyph.Path(renderer).Clone();
-                scaleMatrix = new Matrix();
-                scaleMatrix.Scale(_emScale, -1 * _emScale, MatrixOrder.Append);
-                scaleMatrix.Translate(xPos, ascent, MatrixOrder.Append);
+                path = (SKPath)glyph.Path(renderer).Clone();
+                scaleMatrix = new SKMatrix();
+                scaleMatrix.Scale(_emScale, -1 * _emScale, SKMatrixOrder.Append);
+                scaleMatrix.Translate(xPos, ascent, SKMatrixOrder.Append);
                 path.Transform(scaleMatrix);
                 scaleMatrix.Dispose();
 

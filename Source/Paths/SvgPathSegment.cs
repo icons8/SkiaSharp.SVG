@@ -18,7 +18,7 @@ namespace Svg.Pathing
             End = end;
         }
 
-        public abstract void AddToPath(GraphicsPath graphicsPath);
+        public abstract void AddToPath(SKPath SKPath);
 
         public SvgPathSegment Clone()
         {

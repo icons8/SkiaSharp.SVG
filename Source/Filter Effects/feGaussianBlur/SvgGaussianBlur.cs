@@ -71,20 +71,20 @@ namespace Svg.FilterEffects
             _isPrecalculated = true;
         }
 
-        public Bitmap Apply(Image inputImage)
+        public SKBitmap Apply(Image inputImage)
         {
-            var bitmapSrc = inputImage as Bitmap;
-            if (bitmapSrc == null) bitmapSrc = new Bitmap(inputImage);
+            var SKBitmapSrc = inputImage as SKBitmap;
+            if (SKBitmapSrc == null) SKBitmapSrc = new SKBitmap(inputImage);
 
             PreCalculate();
             if (!_isPrecalculated)
             {
-                return bitmapSrc;
+                return SKBitmapSrc;
             }
 
-            using (RawBitmap src = new RawBitmap(bitmapSrc))
+            using (RawSKBitmap src = new RawSKBitmap(SKBitmapSrc))
             {
-                using (RawBitmap dest = new RawBitmap(new Bitmap(inputImage.Width, inputImage.Height)))
+                using (RawSKBitmap dest = new RawSKBitmap(new SKBitmap(inputImage.Width, inputImage.Height)))
                 {
                     int pixelCount = src.Width * src.Height;
                     int[] b = new int[pixelCount];
@@ -165,7 +165,7 @@ namespace Svg.FilterEffects
 
                     if (_stdDeviationX > 0f && _stdDeviationY <= 0f)
                     {
-                        return dest.Bitmap;
+                        return dest.SKBitmap;
                     }
 
                     int tempy;
@@ -230,7 +230,7 @@ namespace Svg.FilterEffects
                             index++;
                         }
                     }
-                    return dest.Bitmap;
+                    return dest.SKBitmap;
                 }
             }
         }

@@ -4122,7 +4122,7 @@
     <!-- end of SVG.feBlend.attlist -->
   ]]>
 
-  <!-- feColorMatrix: Filter Effect Color Matrix Element . -->
+  <!-- feColorMatrix: Filter Effect Color SKMatrix Element . -->
 
   <!ENTITY % SVG.feColorMatrix.extra.content "" >
 
@@ -4142,7 +4142,7 @@
     %SVG.Core.attrib;
     %SVG.FilterColor.attrib;
     %SVG.FilterPrimitiveWithIn.attrib;
-    type ( matrix | saturate | hueRotate | luminanceToAlpha ) 'matrix'
+    type ( SKMatrix | saturate | hueRotate | luminanceToAlpha ) 'matrix'
     values CDATA #IMPLIED
 >
     <!-- end of SVG.feColorMatrix.attlist -->
@@ -4201,7 +4201,7 @@
     <!-- end of SVG.feComposite.attlist -->
   ]]>
 
-  <!-- feConvolveMatrix: Filter Effect Convolve Matrix Element -->
+  <!-- feConvolveMatrix: Filter Effect Convolve SKMatrix Element -->
 
   <!ENTITY % SVG.feConvolveMatrix.extra.content "" >
 

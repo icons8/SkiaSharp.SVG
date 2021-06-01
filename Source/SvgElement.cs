@@ -41,7 +41,7 @@ namespace Svg
         private EventHandlerList _eventHandlers;
         private SvgElementCollection _children;
         private static readonly object _loadEventKey = new object();
-        private Matrix _graphicsTransform;
+        private SKMatrix _graphicsTransform;
         private Region _graphicsClip;
         private SvgCustomAttributeCollection _customAttributes;
         private List<ISvgNode> _nodes = new List<ISvgNode>();
@@ -346,7 +346,7 @@ namespace Svg
 
             using (var transformMatrix = transforms.GetMatrix())
             {
-                using (var zeroMatrix = new Matrix(0f, 0f, 0f, 0f, 0f, 0f))
+                using (var zeroMatrix = new SKMatrix(0f, 0f, 0f, 0f, 0f, 0f))
                     if (zeroMatrix.Equals(transformMatrix))
                         return false;
 
@@ -419,8 +419,8 @@ namespace Svg
         {
             if (Transforms != null && Transforms.Count > 0)
             {
-                using (var path = new GraphicsPath())
-                using (var matrix = Transforms.GetMatrix())
+                using (var path = new SKPath())
+                using (var SKMatrix = Transforms.GetMatrix())
                 {
                     path.AddRectangle(bounds);
                     path.Transform(matrix);
@@ -1052,7 +1052,7 @@ namespace Svg
         /// </summary>
         /// <param name="elem"></param>
         /// <param name="path"></param>
-        protected void AddPaths(SvgElement elem, GraphicsPath path)
+        protected void AddPaths(SvgElement elem, SKPath path)
         {
             foreach (var child in elem.Children)
             {
@@ -1068,10 +1068,10 @@ namespace Svg
                     {
                         var childPath = ((SvgVisualElement)child).Path(null);
                         if (childPath != null)
-                            using (childPath = (GraphicsPath)childPath.Clone())
+                            using (childPath = (SKPath)childPath.Clone())
                             {
                                 if (child.Transforms != null)
-                                    using (var matrix = child.Transforms.GetMatrix())
+                                    using (var SKMatrix = child.Transforms.GetMatrix())
                                         childPath.Transform(matrix);
 
                                 if (childPath.PointCount > 0)
@@ -1089,9 +1089,9 @@ namespace Svg
         /// </summary>
         /// <param name="elem"></param>
         /// <param name="renderer"></param>
-        protected GraphicsPath GetPaths(SvgElement elem, ISvgRenderer renderer)
+        protected SKPath GetPaths(SvgElement elem, ISvgRenderer renderer)
         {
-            var ret = new GraphicsPath();
+            var ret = new SKPath();
 
             foreach (var child in elem.Children)
             {
@@ -1103,7 +1103,7 @@ namespace Svg
                         if (childPath.PointCount > 0)
                         {
                             if (child.Transforms != null)
-                                using (var matrix = child.Transforms.GetMatrix())
+                                using (var SKMatrix = child.Transforms.GetMatrix())
                                     childPath.Transform(matrix);
 
                             ret.AddPath(childPath, false);
@@ -1112,7 +1112,7 @@ namespace Svg
                     else
                     {
                         var childPath = ((SvgVisualElement)child).Path(renderer);
-                        childPath = childPath != null ? (GraphicsPath)childPath.Clone() : new GraphicsPath();
+                        childPath = childPath != null ? (SKPath)childPath.Clone() : new SKPath();
 
                         // Non-group element can have child element which we have to consider. i.e tspan in text element
                         if (child.Children.Count > 0)
@@ -1125,7 +1125,7 @@ namespace Svg
                         if (childPath.PointCount > 0)
                         {
                             if (child.Transforms != null)
-                                using (var matrix = child.Transforms.GetMatrix())
+                                using (var SKMatrix = child.Transforms.GetMatrix())
                                     childPath.Transform(matrix);
 
                             ret.AddPath(childPath, false);

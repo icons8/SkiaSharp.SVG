@@ -95,7 +95,7 @@ namespace SvgW3CTestRunner
                 }
                 else
                 {
-                    var img = new Bitmap(480, 360);
+                    var img = new SKBitmap(480, 360);
                     doc.Draw(img);
                     picSvg.Image = img;
                 }
@@ -129,7 +129,7 @@ namespace SvgW3CTestRunner
                     }
                     else
                     {
-                        var img = new Bitmap(480, 360);
+                        var img = new SKBitmap(480, 360);
                         doc.Draw(img);
                         picSaveLoad.Image = img;
                     }
@@ -146,7 +146,7 @@ namespace SvgW3CTestRunner
             //compare svg to png
             try
             {
-                picSVGPNG.Image = PixelDiff((Bitmap)picPng.Image, (Bitmap)picSvg.Image);
+                picSVGPNG.Image = PixelDiff((SKBitmap)picPng.Image, (SKBitmap)picSvg.Image);
             }
             catch (Exception ex)
             {
@@ -193,9 +193,9 @@ namespace SvgW3CTestRunner
             return description;
         }
 
-        unsafe Bitmap PixelDiff(Bitmap a, Bitmap b)
+        unsafe SKBitmap PixelDiff(SKBitmap a, SKBitmap b)
         {
-            Bitmap output = new Bitmap(a.Width, a.Height, PixelFormat.Format32bppArgb);
+            SKBitmap output = new SKBitmap(a.Width, a.Height, PixelFormat.Format32bppArgb);
             Rectangle rect = new Rectangle(Point.Empty, a.Size);
             using (var aData = a.LockBitsDisposable(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb))
             using (var bData = b.LockBitsDisposable(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb))
@@ -222,27 +222,27 @@ namespace SvgW3CTestRunner
         }
     }
 
-    static class BitmapExtensions
+    static class SKBitmapExtensions
     {
-        public static DisposableImageData LockBitsDisposable(this Bitmap bitmap, Rectangle rect, ImageLockMode flags, PixelFormat format)
+        public static DisposableImageData LockBitsDisposable(this SKBitmap SKBitmap, Rectangle rect, ImageLockMode flags, PixelFormat format)
         {
-            return new DisposableImageData(bitmap, rect, flags, format);
+            return new DisposableImageData(SKBitmap, rect, flags, format);
         }
 
         public class DisposableImageData : IDisposable
         {
-            private readonly Bitmap _bitmap;
-            private readonly BitmapData _data;
+            private readonly SKBitmap _SKBitmap;
+            private readonly SKBitmapData _data;
 
-            internal DisposableImageData(Bitmap bitmap, Rectangle rect, ImageLockMode flags, PixelFormat format)
+            internal DisposableImageData(SKBitmap SKBitmap, Rectangle rect, ImageLockMode flags, PixelFormat format)
             {
-                _bitmap = bitmap;
-                _data = bitmap.LockBits(rect, flags, format);
+                _SKBitmap = SKBitmap;
+                _data = SKBitmap.LockBits(rect, flags, format);
             }
 
             public void Dispose()
             {
-                _bitmap.UnlockBits(_data);
+                _SKBitmap.UnlockBits(_data);
             }
 
             public IntPtr Scan0

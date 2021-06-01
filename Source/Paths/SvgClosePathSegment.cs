@@ -4,9 +4,9 @@ namespace Svg.Pathing
 {
     public sealed class SvgClosePathSegment : SvgPathSegment
     {
-        public override void AddToPath(GraphicsPath graphicsPath)
+        public override void AddToPath(SKPath SKPath)
         {
-            var pathData = graphicsPath.PathData;
+            var pathData = SKPath.PathData;
 
             if (pathData.Points.Length > 0)
             {
@@ -16,10 +16,10 @@ namespace Svg.Pathing
                 {
                     var i = last;
                     while (i > 0 && pathData.Types[i] > 0) --i;
-                    graphicsPath.AddLine(pathData.Points[last], pathData.Points[i]);
+                    SKPath.AddLine(pathData.Points[last], pathData.Points[i]);
                 }
 
-                graphicsPath.CloseFigure();
+                SKPath.CloseFigure();
             }
         }
 

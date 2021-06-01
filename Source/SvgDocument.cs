@@ -250,7 +250,7 @@ namespace Svg
         {
             try
             {
-                using (var matrix = new Matrix(0f, 0f, 0f, 0f, 0f, 0f)) { }
+                using (var SKMatrix = new SKMatrix(0f, 0f, 0f, 0f, 0f, 0f)) { }
             }
             // GDI+ loading errors will result in TypeInitializationExceptions,
             // for readability we will catch and wrap the error
@@ -261,7 +261,7 @@ namespace Svg
                     // Throw only the customized exception if we are sure GDI+ is causing the problem
                     throw new SvgGdiPlusCannotBeLoadedException(e);
                 }
-                //If the Matrix creation is causing another type of exception we should just raise that one
+                //If the SKMatrix creation is causing another type of exception we should just raise that one
                 throw;
             }
         }
@@ -544,12 +544,12 @@ namespace Svg
             return Open<SvgDocument>(reader);
         }
 
-        public static Bitmap OpenAsBitmap(string path)
+        public static SKBitmap OpenAsSKBitmap(string path)
         {
             return null;
         }
 
-        public static Bitmap OpenAsBitmap(XmlDocument document)
+        public static SKBitmap OpenAsSKBitmap(XmlDocument document)
         {
             return null;
         }
@@ -610,10 +610,10 @@ namespace Svg
         }
 
         /// <summary>
-        /// Renders the <see cref="SvgDocument"/> and returns the image as a <see cref="Bitmap"/>.
+        /// Renders the <see cref="SvgDocument"/> and returns the image as a <see cref="SKBitmap"/>.
         /// </summary>
-        /// <returns>A <see cref="Bitmap"/> containing the rendered document.</returns>
-        public virtual Bitmap Draw()
+        /// <returns>A <see cref="SKBitmap"/> containing the rendered document.</returns>
+        public virtual SKBitmap Draw()
         {
             //Trace.TraceInformation("Begin Render");
 
@@ -621,12 +621,12 @@ namespace Svg
             if (size.Width <= 0 || size.Height <= 0)
                 return null;
 
-            Bitmap bitmap = null;
+            SKBitmap SKBitmap = null;
             try
             {
                 try
                 {
-                    bitmap = new Bitmap(size.Width, size.Height);
+                    SKBitmap = new SKBitmap(size.Width, size.Height);
                 }
                 catch (ArgumentException e)
                 {
@@ -634,30 +634,30 @@ namespace Svg
                     throw new SvgMemoryException("Cannot process SVG file, cannot allocate the required memory", e);
                 }
 
-                //bitmap.SetResolution(300, 300);
+                //SKBitmap.SetResolution(300, 300);
 
-                this.Draw(bitmap);
+                this.Draw(SKBitmap);
             }
             catch
             {
-                bitmap?.Dispose();
+                SKBitmap?.Dispose();
                 throw;
             }
 
             //Trace.TraceInformation("End Render");
-            return bitmap;
+            return SKBitmap;
         }
 
         /// <summary>
-        /// Renders the <see cref="SvgDocument"/> into a given Bitmap <see cref="Bitmap"/>.
+        /// Renders the <see cref="SvgDocument"/> into a given SKBitmap <see cref="SKBitmap"/>.
         /// </summary>
-        public virtual void Draw(Bitmap bitmap)
+        public virtual void Draw(SKBitmap SKBitmap)
         {
             //Trace.TraceInformation("Begin Render");
 
-            using (var renderer = SvgRenderer.FromImage(bitmap))
+            using (var renderer = SvgRenderer.FromImage(SKBitmap))
             {
-                var boundable = new GenericBoundable(0, 0, bitmap.Width, bitmap.Height);
+                var boundable = new GenericBoundable(0, 0, SKBitmap.Width, SKBitmap.Height);
                 this.Draw(renderer, boundable);
             }
 
@@ -665,27 +665,27 @@ namespace Svg
         }
 
         /// <summary>
-        /// Renders the <see cref="SvgDocument"/> in given size and returns the image as a <see cref="Bitmap"/>.
+        /// Renders the <see cref="SvgDocument"/> in given size and returns the image as a <see cref="SKBitmap"/>.
         /// If one of rasterWidth and rasterHeight is zero, the image is scaled preserving aspect ratio,
         /// otherwise the aspect ratio is ignored.
         /// </summary>
-        /// <returns>A <see cref="Bitmap"/> containing the rendered document.</returns>
-        public virtual Bitmap Draw(int rasterWidth, int rasterHeight)
+        /// <returns>A <see cref="SKBitmap"/> containing the rendered document.</returns>
+        public virtual SKBitmap Draw(int rasterWidth, int rasterHeight)
         {
             var svgSize = GetDimensions();
             var imageSize = svgSize;
             this.RasterizeDimensions(ref imageSize, rasterWidth, rasterHeight);
 
-            var bitmapSize = Size.Round(imageSize);
-            if (bitmapSize.Width <= 0 || bitmapSize.Height <= 0)
+            var SKBitmapSize = Size.Round(imageSize);
+            if (SKBitmapSize.Width <= 0 || SKBitmapSize.Height <= 0)
                 return null;
 
-            Bitmap bitmap = null;
+            SKBitmap SKBitmap = null;
             try
             {
                 try
                 {
-                    bitmap = new Bitmap(bitmapSize.Width, bitmapSize.Height);
+                    SKBitmap = new SKBitmap(SKBitmapSize.Width, SKBitmapSize.Height);
                 }
                 catch (ArgumentException e)
                 {
@@ -693,7 +693,7 @@ namespace Svg
                     throw new SvgMemoryException("Cannot process SVG file, cannot allocate the required memory", e);
                 }
 
-                using (var renderer = SvgRenderer.FromImage(bitmap))
+                using (var renderer = SvgRenderer.FromImage(SKBitmap))
                 {
                     renderer.ScaleTransform(imageSize.Width / svgSize.Width, imageSize.Height / svgSize.Height);
                     var boundable = new GenericBoundable(0, 0, svgSize.Width, svgSize.Height);
@@ -702,11 +702,11 @@ namespace Svg
             }
             catch
             {
-                bitmap?.Dispose();
+                SKBitmap?.Dispose();
                 throw;
             }
 
-            return bitmap;
+            return SKBitmap;
         }
 
         /// <summary>

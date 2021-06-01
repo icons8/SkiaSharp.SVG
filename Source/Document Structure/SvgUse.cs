@@ -102,11 +102,11 @@ namespace Svg
                 return false;
             renderer.TranslateTransform(X.ToDeviceValue(renderer, UnitRenderingType.Horizontal, this),
                                         Y.ToDeviceValue(renderer, UnitRenderingType.Vertical, this),
-                                        MatrixOrder.Prepend);
+                                        SKMatrixOrder.Prepend);
             return true;
         }
 
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             SvgVisualElement element = (SvgVisualElement)this.OwnerDocument.IdManager.GetElementById(this.ReferencedElement);
             return (element != null && !this.HasRecursiveReference()) ? element.Path(renderer) : null;
@@ -161,7 +161,7 @@ namespace Svg
                         {
                             var sw = ew / viewBox.Width;
                             var sh = eh / viewBox.Height;
-                            renderer.ScaleTransform(sw, sh, MatrixOrder.Prepend);
+                            renderer.ScaleTransform(sw, sh, SKMatrixOrder.Prepend);
                         }
                     }
 

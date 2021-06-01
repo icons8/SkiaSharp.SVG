@@ -10,10 +10,10 @@ namespace Svg
     public partial class SvgGroup : SvgMarkerElement
     {
         /// <summary>
-        /// Gets the <see cref="GraphicsPath"/> for this element.
+        /// Gets the <see cref="SKPath"/> for this element.
         /// </summary>
         /// <value></value>
-        public override GraphicsPath Path(ISvgRenderer renderer)
+        public override SKPath Path(ISvgRenderer renderer)
         {
             return GetPaths(this, renderer);
         }

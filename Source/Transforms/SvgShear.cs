@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Svg.Transforms
 {
     /// <summary>
-    /// The class which applies the specified shear vector to this Matrix.
+    /// The class which applies the specified shear vector to this SKMatrix.
     /// </summary>
     public sealed class SvgShear : SvgTransform
     {
@@ -12,13 +12,13 @@ namespace Svg.Transforms
 
         public float Y { get; set; }
 
-        public override Matrix Matrix
+        public override SKMatrix SKMatrix
         {
             get
             {
-                var matrix = new Matrix();
-                matrix.Shear(X, Y);
-                return matrix;
+                var SKMatrix = new SKMatrix();
+                SKMatrix.Shear(X, Y);
+                return SKMatrix;
             }
         }
 

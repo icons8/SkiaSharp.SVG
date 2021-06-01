@@ -115,7 +115,7 @@ namespace Svg
             }
         }
 
-        public override System.Drawing.Drawing2D.GraphicsPath Path(ISvgRenderer renderer)
+        public override System.Drawing.Drawing2D.SKPath Path(ISvgRenderer renderer)
         {
             if (MarkerElement != null)
                 return MarkerElement.Path(renderer);
@@ -190,7 +190,7 @@ namespace Svg
             {
                 using (var markerPath = GetClone(pOwner, pRenderer))
                 {
-                    using (var transMatrix = new Matrix())
+                    using (var transMatrix = new SKMatrix())
                     {
                         transMatrix.Translate(pMarkerPoint.X, pMarkerPoint.Y);
                         if (Orient.IsAuto)
@@ -226,7 +226,7 @@ namespace Svg
                         }
 
                         if (MarkerElement != null && MarkerElement.Transforms != null)
-                            using (var matrix = MarkerElement.Transforms.GetMatrix())
+                            using (var SKMatrix = MarkerElement.Transforms.GetMatrix())
                                 transMatrix.Multiply(matrix);
                         markerPath.Transform(transMatrix);
                         if (pRenderPen != null) pRenderer.DrawPath(pRenderPen, markerPath);
@@ -270,13 +270,13 @@ namespace Svg
         /// Get a clone of the current path, scaled for the stroke width
         /// </summary>
         /// <returns></returns>
-        private GraphicsPath GetClone(SvgVisualElement pPath, ISvgRenderer renderer)
+        private SKPath GetClone(SvgVisualElement pPath, ISvgRenderer renderer)
         {
-            GraphicsPath pRet = Path(renderer).Clone() as GraphicsPath;
+            SKPath pRet = Path(renderer).Clone() as SKPath;
             switch (MarkerUnits)
             {
                 case SvgMarkerUnits.StrokeWidth:
-                    using (var transMatrix = new Matrix())
+                    using (var transMatrix = new SKMatrix())
                     {
                         transMatrix.Scale(AdjustForViewBoxWidth(pPath.StrokeWidth), AdjustForViewBoxHeight(pPath.StrokeWidth));
                         pRet.Transform(transMatrix);

@@ -5,7 +5,7 @@ using System.Globalization;
 namespace Svg.Transforms
 {
     /// <summary>
-    /// The class which applies the specified skew vector to this Matrix.
+    /// The class which applies the specified skew vector to this SKMatrix.
     /// </summary>
     public sealed class SvgSkew : SvgTransform
     {
@@ -13,13 +13,13 @@ namespace Svg.Transforms
 
         public float AngleY { get; set; }
 
-        public override Matrix Matrix
+        public override SKMatrix SKMatrix
         {
             get
             {
-                var matrix = new Matrix();
-                matrix.Shear((float)Math.Tan(AngleX / 180f * Math.PI), (float)Math.Tan(AngleY / 180f * Math.PI));
-                return matrix;
+                var SKMatrix = new SKMatrix();
+                SKMatrix.Shear((float)Math.Tan(AngleX / 180f * Math.PI), (float)Math.Tan(AngleY / 180f * Math.PI));
+                return SKMatrix;
             }
         }
 
