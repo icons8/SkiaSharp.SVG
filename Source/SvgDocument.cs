@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using SkiaSharp;
 using System.IO;
 using System.Text;
 using System.Xml;

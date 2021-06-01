@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using SkiaSharp;
 using System.Globalization;
 
 namespace Svg

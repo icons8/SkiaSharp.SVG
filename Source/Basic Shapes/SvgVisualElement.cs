@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using SkiaSharp;
 using System.Globalization;
 using System.Linq;
 using Svg.ExtensionMethods;

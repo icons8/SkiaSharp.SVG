@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
+using SkiaSharp;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 
