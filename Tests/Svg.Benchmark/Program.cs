@@ -28,7 +28,6 @@ namespace Svg.Benchmark
             config.AddValidator(JitOptimizationsValidator.DontFailOnError);
             config.AddJob(job.WithRuntime(CoreRuntime.Core31));
             //config.AddJob(job.WithRuntime(CoreRuntime.Core22));
-            //config.AddJob(job.WithRuntime(ClrRuntime.Net461));
             config.AddDiagnoser(MemoryDiagnoser.Default);
             config.AddColumn(StatisticColumn.OperationsPerSecond);
             config.AddColumn(RankColumn.Arabic);
